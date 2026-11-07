@@ -90,21 +90,21 @@ const COINS = {
     label: 'Solana (SOL) Deposit Window',
     walletLabel: 'Solana Wallet Address',
     address: '5TMc6jQxQkmgbFonKb3xxWi6811aiuhDHxymSz1V5Smf',
-    qr: 'img/qr-solana.png'
+    qr: 'qr-solana.png'
   },
   ethereum: {
     name: 'Ethereum',
     label: 'Ethereum (ETH) Deposit Window',
     walletLabel: 'Ethereum Wallet Address',
     address: '0xa4558c2cf4519a526d469d9df2f4cf9e4f021828',
-    qr: 'img/qr-ethereum.png'
+    qr: 'qr-ethereum.png'
   },
   polygon: {
     name: 'Polygon (POL)',
     label: 'Polygon (POL) Deposit Window',
     walletLabel: 'Polygon (POL) Wallet Address',
     address: '0xa4558c2cf4519a526d469d9df2f4cf9e4f021828',
-    qr: 'img/qr-polygon.png'
+    qr: 'qr-polygon.png'
   }
 };
 

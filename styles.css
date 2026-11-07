@@ -257,7 +257,7 @@ ul, ol { list-style: none; }
 .scene { position: relative; overflow: hidden; border-radius: 14px; background: var(--ink-2); }
 .scene::before {
   content: ""; position: absolute; inset: -24px;
-  background: url("img/map-only.webp") center / cover;
+  background: url("map-only.webp") center / cover;
   filter: blur(4px) brightness(.5) saturate(1.2);
 }
 .scene::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, transparent 40%, rgba(7, 8, 11, .65)); }
@@ -301,7 +301,7 @@ ul, ol { list-style: none; }
 .final { position: relative; margin-top: clamp(110px, 14vw, 180px); overflow: hidden; border-top: 1px solid var(--line); }
 .final::before {
   content: ""; position: absolute; inset: 0 0 0 40%;
-  background: url("img/map-only.webp") center / cover;
+  background: url("map-only.webp") center / cover;
   opacity: .35; filter: saturate(1.1);
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 60%);
   mask-image: linear-gradient(90deg, transparent, #000 60%);
