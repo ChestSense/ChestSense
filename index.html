@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ChestSense · Loot map for Fortnite</title>
+  <meta name="description" content="ChestSense scans the match on the Battle Bus and marks five chests on the live season map, each with a find chance.">
+  <meta name="theme-color" content="#07080b">
+  <link rel="icon" href="img/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Geist:wght@400..700&family=Geist+Mono:wght@400..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <svg width="0" height="0" class="defs" aria-hidden="true">
+    <symbol id="chest" viewBox="0 0 24 24">
+      <path d="M3 10.4C3 6.3 6.6 4 12 4s9 2.3 9 6.4V19a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 19z" fill="currentColor"/>
+      <path d="M3 11.6h18" stroke="#07080b" stroke-width="1.6"/>
+      <rect x="10.4" y="10.2" width="3.2" height="4.6" rx=".8" fill="#07080b"/>
+    </symbol>
+    <symbol id="mark" viewBox="0 0 32 32">
+      <circle cx="16" cy="16" r="12.5" fill="none" stroke="currentColor" stroke-width="2.2"/>
+      <path d="M16 0v7M16 25v7M0 16h7M25 16h7" stroke="currentColor" stroke-width="2.2"/>
+      <path d="M10 15.2a6 3.6 0 0 1 12 0V21a1.4 1.4 0 0 1-1.4 1.4h-9.2A1.4 1.4 0 0 1 10 21z" fill="var(--gold)"/>
+    </symbol>
+    <symbol id="arrow" viewBox="0 0 16 16">
+      <path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/>
+    </symbol>
+  </svg>
+
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top" aria-label="ChestSense, back to top">
+        <svg class="brand-mark"><use href="#mark"/></svg>
+        <span>ChestSense</span>
+      </a>
+      <nav class="links" id="links" aria-label="Main">
+        <a href="#chests"><i>B2</i>Chests</a>
+        <a href="#how"><i>D4</i>How it works</a>
+        <a href="#features"><i>F6</i>Features</a>
+        <a href="#faq"><i>H8</i>FAQ</a>
+      </nav>
+      <a class="btn btn-gold btn-sm nav-cta" href="https://discord.gg/YUQbmq3vH" target="_blank" rel="noopener">Join Discord</a>
+      <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="links" aria-label="Open menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- A1 · hero: the page itself is the loot map -->
+    <section class="hero" id="top">
+      <div class="hero-map" aria-hidden="true">
+        <div class="cols"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span><span>I</span><span>J</span></div>
+        <div class="rows"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+        <svg class="route" preserveAspectRatio="none" viewBox="0 0 100 100"><line x1="-4" y1="96" x2="104" y2="6"/></svg>
+        <span class="bus" id="bus"></span>
+        <span class="ping" style="--x:57%;--y:83%;--c:var(--legendary);--d:1.6s"></span>
+        <span class="ping" style="--x:92%;--y:76%;--c:var(--pirate);--d:2.1s"></span>
+        <span class="ping" style="--x:47%;--y:14%;--c:var(--rare);--d:2.6s"></span>
+        <span class="ping" style="--x:8%;--y:91%;--c:var(--epic);--d:3s"></span>
+        <span class="ping" style="--x:96%;--y:12%;--c:var(--common);--d:3.4s"></span>
+      </div>
+
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="live"></span>Season map synced · v4.2.1</p>
+          <h1 class="display">
+            <span class="line" style="--i:0"><span>Know where</span></span>
+            <span class="line" style="--i:1"><span>the loot is</span></span>
+            <span class="line" style="--i:2"><span>before you</span></span>
+            <span class="line" style="--i:3"><span><em>drop.</em></span></span>
+          </h1>
+          <p class="lede">ChestSense scans the match while you're on the Battle Bus and marks five chests on the live map, each with a find chance. Press Insert, pick your spot, jump.</p>
+          <div class="cta-row">
+            <a class="btn btn-gold" href="https://discord.gg/YUQbmq3vH" target="_blank" rel="noopener">
+              Get a key on Discord <svg class="ic"><use href="#arrow"/></svg>
+            </a>
+            <a class="btn btn-line" href="#how">See how it works</a>
+          </div>
+        </div>
+
+        <figure class="hero-shot">
+          <div class="tilt" id="tilt">
+            <img src="img/menu-loot.webp" width="1960" height="1200" alt="The ChestSense in-game menu: the island map with five chests marked and a list of find chances" fetchpriority="high">
+            <div class="callout c1"><svg style="color:var(--pirate)"><use href="#chest"/></svg><span>Pirate Chest</span><b>D5 · 93%</b></div>
+            <div class="callout c2"><span class="you">YOU</span><span>Drop set</span><b>E6 · 347m</b></div>
+          </div>
+        </figure>
+      </div>
+      <div class="tier-rule" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    </section>
+
+    <!-- B2 · tiers -->
+    <section class="section tiers" id="chests">
+      <header class="sec-head" data-reveal>
+        <span class="coord">B2</span>
+        <h2 class="display-2">Five chests.<br>Every match.</h2>
+        <p>Every scan resolves five chests across the island. Each one gets a tier and a find chance, so you know which one is worth the detour.</p>
+      </header>
+      <ol class="tier-row">
+        <li style="--c:var(--common);--lo:52;--hi:71" data-reveal>
+          <svg><use href="#chest"/></svg>
+          <b>Common</b>
+          <span class="range">52–71%</span>
+          <span class="bar"><i></i></span>
+        </li>
+        <li style="--c:var(--rare);--lo:61;--hi:80" data-reveal>
+          <svg><use href="#chest"/></svg>
+          <b>Rare</b>
+          <span class="range">61–80%</span>
+          <span class="bar"><i></i></span>
+        </li>
+        <li style="--c:var(--epic);--lo:69;--hi:88" data-reveal>
+          <svg><use href="#chest"/></svg>
+          <b>Epic</b>
+          <span class="range">69–88%</span>
+          <span class="bar"><i></i></span>
+        </li>
+        <li style="--c:var(--legendary);--lo:77;--hi:95" data-reveal>
+          <svg><use href="#chest"/></svg>
+          <b>Legendary</b>
+          <span class="range">77–95%</span>
+          <span class="bar"><i></i></span>
+        </li>
+        <li class="pirate" style="--c:var(--pirate);--lo:83;--hi:99" data-reveal>
+          <svg><use href="#chest"/></svg>
+          <b>Pirate</b>
+          <span class="range">83–99%</span>
+          <span class="bar"><i></i></span>
+          <em>The only chest that can hold a Pirate Shop token.</em>
+        </li>
+      </ol>
+    </section>
+
+    <!-- D4 · how it works -->
+    <section class="section how" id="how">
+      <header class="sec-head" data-reveal>
+        <span class="coord">D4</span>
+        <h2 class="display-2">Four steps.<br>One drop.</h2>
+      </header>
+      <div class="how-grid">
+        <ol class="steps">
+          <li class="step is-active" data-step="0">
+            <span class="num">01</span>
+            <h3>Enter your key</h3>
+            <p>Open ChestSense and type the 10-character key you got in the Discord. It locks to your PC the first time you use it.</p>
+            <img class="step-shot" src="img/launcher-login.webp" width="1960" height="1240" alt="ChestSense license screen" loading="lazy">
+          </li>
+          <li class="step" data-step="1">
+            <span class="num">02</span>
+            <h3>Launch Fortnite</h3>
+            <p>ChestSense waits in the background. When the game starts it attaches on its own and tells you when it's ready.</p>
+            <img class="step-shot" src="img/launcher-injected.webp" width="1960" height="1240" alt="ChestSense launcher showing it's attached to the game" loading="lazy">
+          </li>
+          <li class="step" data-step="2">
+            <span class="num">03</span>
+            <h3>Scan on the bus</h3>
+            <p>Press Insert while you're on the Battle Bus and hit Scan. Five chests show up on the map, each with its find chance.</p>
+            <img class="step-shot" src="img/menu-loot.webp" width="1960" height="1200" alt="The loot map after a scan" loading="lazy">
+          </li>
+          <li class="step" data-step="3">
+            <span class="num">04</span>
+            <h3>Drop and loot</h3>
+            <p>Click where you're landing to get the chests around that spot. A small radar on the side of your screen keeps them in view.</p>
+            <div class="step-shot scene scene-sm" role="img" aria-label="The loot radar on the side of the screen">
+              <img class="scene-radar" src="img/hud-radar.webp" width="420" height="559" alt="" loading="lazy">
+              <img class="scene-wm" src="img/hud-watermark.webp" width="856" height="52" alt="" loading="lazy">
+            </div>
+          </li>
+        </ol>
+
+        <div class="stage" aria-hidden="true">
+          <div class="stage-frame">
+            <span class="stage-coord" id="stageCoord">01 / 04</span>
+            <img class="is-active" src="img/launcher-login.webp" width="1960" height="1240" alt="" loading="lazy">
+            <img src="img/launcher-injected.webp" width="1960" height="1240" alt="" loading="lazy">
+            <img src="img/menu-loot.webp" width="1960" height="1200" alt="" loading="lazy">
+            <div class="scene">
+              <img class="scene-radar" src="img/hud-radar.webp" width="420" height="559" alt="" loading="lazy">
+              <img class="scene-wm" src="img/hud-watermark.webp" width="856" height="52" alt="" loading="lazy">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- F6 · features -->
+    <section class="section features" id="features">
+      <header class="sec-head" data-reveal>
+        <span class="coord">F6</span>
+        <h2 class="display-2">Everything's in<br>one Insert.</h2>
+      </header>
+
+      <article class="feature" data-reveal>
+        <div class="feature-shot">
+          <img src="img/menu-token.webp" width="1960" height="1200" alt="Pirate token locator showing a token found in a Pirate Chest" loading="lazy">
+        </div>
+        <div class="feature-copy">
+          <span class="tag" style="--c:var(--pirate)">Pirate token locator</span>
+          <h3>Find out which chest has the token.</h3>
+          <p>Pirate Shop tokens only spawn in Pirate Chests. The locator checks this match's loot table and tells you which one to sprint for, before anyone else gets there.</p>
+        </div>
+      </article>
+
+      <article class="feature flip" data-reveal>
+        <div class="feature-shot scene" role="img" aria-label="The loot radar and status bar over the game">
+          <img class="scene-radar" src="img/hud-radar.webp" width="420" height="559" alt="" loading="lazy">
+          <img class="scene-wm" src="img/hud-watermark.webp" width="856" height="52" alt="" loading="lazy">
+        </div>
+        <div class="feature-copy">
+          <span class="tag" style="--c:var(--rare)">Loot radar</span>
+          <h3>Keep your eyes on the fight.</h3>
+          <p>A small radar zooms in on your drop and shows the chests near you while you play. No need to open the menu again mid-fight.</p>
+        </div>
+      </article>
+
+      <article class="feature" data-reveal>
+        <div class="feature-shot">
+          <img src="img/menu-visuals.webp" width="1960" height="1200" alt="Visual settings: loot radar, chest ESP, watermark, bus route and zone prediction" loading="lazy">
+        </div>
+        <div class="feature-copy">
+          <span class="tag" style="--c:var(--epic)">Visuals</span>
+          <h3>Show only what you want.</h3>
+          <ul class="ticks">
+            <li>Battle Bus route on the map</li>
+            <li>Predicted second zone</li>
+            <li>Chest marks on the radar</li>
+            <li>Four accent colors</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <!-- G7 · specs + H8 · FAQ -->
+    <section class="section info" id="faq">
+      <div class="specs" data-reveal>
+        <span class="coord">G7</span>
+        <h2 class="display-3">Before you start</h2>
+        <dl>
+          <div><dt>Platform</dt><dd>Windows 10 or 11</dd></div>
+          <div><dt>Window mode</dt><dd>Windowed Fullscreen</dd></div>
+          <div><dt>Menu key</dt><dd>Insert, in-game only</dd></div>
+          <div><dt>Chests per scan</dt><dd>5</dd></div>
+          <div><dt>Map</dt><dd>Updates every season</dd></div>
+          <div><dt>License</dt><dd>One key, one PC</dd></div>
+        </dl>
+      </div>
+
+      <div class="faq" data-reveal>
+        <span class="coord">H8</span>
+        <h2 class="display-3">Questions</h2>
+        <details open>
+          <summary>How do I get a key?</summary>
+          <p>Keys are handed out in the Discord. Join, ask, and you'll get your own 10-character key.</p>
+        </details>
+        <details>
+          <summary>The menu doesn't show up in game.</summary>
+          <p>Set Fortnite to Windowed Fullscreen (Settings, Display, Window Mode). Insert only opens the menu while Fortnite is running.</p>
+        </details>
+        <details>
+          <summary>Can I use my key on two PCs?</summary>
+          <p>No. A key locks to the first PC it's used on. Using it on a second PC gets it refused there.</p>
+        </details>
+        <details>
+          <summary>Do I type the key every time?</summary>
+          <p>Yes, every time you open ChestSense.</p>
+        </details>
+        <details>
+          <summary>Does it work on console or mobile?</summary>
+          <p>No. ChestSense runs on Windows PCs only.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- J10 · last call -->
+    <section class="final">
+      <div class="final-inner" data-reveal>
+        <span class="coord">J10</span>
+        <h2 class="display">Your next drop<br><em>is already mapped.</em></h2>
+        <a class="btn btn-gold btn-lg" href="https://discord.gg/YUQbmq3vH" target="_blank" rel="noopener">
+          Join the Discord <svg class="ic"><use href="#arrow"/></svg>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="tier-rule" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="foot-inner">
+      <a class="brand" href="#top"><svg class="brand-mark"><use href="#mark"/></svg><span>ChestSense</span></a>
+      <p>v4.2.1 · Not affiliated with Epic Games.</p>
+    </div>
+  </footer>
+
+  <!-- Buy Now Section & Lifetime Access Crypto Modal -->
+  <section class="buy-now" id="buy-now" aria-labelledby="buyNowHeading">
+    <div class="buy-now-inner">
+      <div class="buy-now-copy">
+        <h2 class="display-2" id="buyNowHeading">Unlock <em>Lifetime</em><br>Map Access.</h2>
+        <p class="buy-now-lede">One license locks to your PC for every Fortnite season update. Pay directly with Solana, Ethereum, or Polygon (POL) and claim your 10-character key immediately.</p>
+      </div>
+      <div class="buy-now-card">
+        <div class="buy-now-card-top">
+          <div>
+            <span class="buy-plan-name">Lifetime License</span>
+            <p class="buy-plan-sub">One key · One PC · All season updates included</p>
+          </div>
+          <span class="buy-badge">Instant Crypto Checkout</span>
+        </div>
+        <ul class="buy-perks">
+          <li>Live 5-chest scan on the Battle Bus every match</li>
+          <li>Pirate Shop token chest locator &amp; drop radar</li>
+          <li>Automatic map updates every new season</li>
+        </ul>
+        <button type="button" class="btn btn-gold btn-lg buy-trigger-btn" data-open-buy-modal>
+          Get Lifetime Access <svg class="ic"><use href="#arrow"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Floating Action Button -->
+  <button type="button" class="btn btn-gold fab-lifetime" id="fabLifetimeBtn" data-open-buy-modal aria-haspopup="dialog" aria-controls="buyModal">
+    <svg class="fab-chest" aria-hidden="true"><use href="#chest"/></svg>
+    <span>Get Lifetime Access</span>
+  </button>
+
+  <!-- Crypto Checkout Modal -->
+  <div class="buy-modal-backdrop" id="buyModal" role="dialog" aria-modal="true" aria-labelledby="buyModalTitle" aria-hidden="true" hidden>
+    <div class="buy-modal" role="document">
+      <header class="buy-modal-head">
+        <div>
+          <h2 class="display-3" id="buyModalTitle">Get Lifetime Access</h2>
+          <p class="buy-modal-sub">Select a cryptocurrency network to generate your wallet address and QR code.</p>
+        </div>
+        <button type="button" class="buy-modal-close" id="closeBuyModal" aria-label="Close modal">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9m0-9l-9 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
+        </button>
+      </header>
+
+      <div class="coin-selector" role="group" aria-label="Select cryptocurrency">
+        <button type="button" class="coin-btn" data-coin="solana" aria-pressed="false">
+          <span class="coin-icon coin-sol" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M5.5 16.5h11.6l1.4-2.2H6.9l-1.4 2.2zm0-5.6h13l-1.4-2.2H4.1l1.4 2.2zm13-3.4H6.9L5.5 9.7h11.6l1.4-2.2z" fill="currentColor"/></svg>
+          </span>
+          <span class="coin-info">
+            <span class="coin-name">Solana</span>
+            <span class="coin-ticker">SOL Network</span>
+          </span>
+        </button>
+
+        <button type="button" class="coin-btn" data-coin="ethereum" aria-pressed="false">
+          <span class="coin-icon coin-eth" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 2.5L6.2 12.2 12 15.6l5.8-3.4L12 2.5zm0 14.5l-5.8-3.4L12 21.5l5.8-7.9-5.8 3.4z" fill="currentColor"/></svg>
+          </span>
+          <span class="coin-info">
+            <span class="coin-name">Ethereum</span>
+            <span class="coin-ticker">ETH · ERC-20</span>
+          </span>
+        </button>
+
+        <button type="button" class="coin-btn" data-coin="polygon" aria-pressed="false">
+          <span class="coin-icon coin-pol" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M16.2 7.6a1.6 1.6 0 0 0-1.6 0l-3.4 2-2.3 1.3-3.4 2a1.6 1.6 0 0 1-1.6 0l-1.8-1a1.6 1.6 0 0 1-.8-1.4V8.3c0-.6.3-1.1.8-1.4l1.8-1a1.6 1.6 0 0 1 1.6 0l1.8 1c.5.3.8.8.8 1.4v1.4l2.3-1.3V7c0-.6-.3-1.1-.8-1.4l-4.1-2.4a1.6 1.6 0 0 0-1.6 0L1.5 5.6A1.6 1.6 0 0 0 .7 7v4.8c0 .6.3 1.1.8 1.4l4.1 2.4c.5.3 1.1.3 1.6 0l3.4-2 2.3-1.3 3.4-2a1.6 1.6 0 0 1 1.6 0l1.8 1c.5.3.8.8.8 1.4v2.2c0 .6-.3 1.1-.8 1.4l-1.8 1a1.6 1.6 0 0 1-1.6 0l-1.8-1a1.6 1.6 0 0 1-.8-1.4v-1.4l-2.3 1.3V17c0 .6.3 1.1.8 1.4l4.1 2.4c.5.3 1.1.3 1.6 0l4.1-2.4c.5-.3.8-.8.8-1.4v-4.8c0-.6-.3-1.1-.8-1.4l-4.1-2.4z" fill="currentColor"/></svg>
+          </span>
+          <span class="coin-info">
+            <span class="coin-name">Polygon (POL)</span>
+            <span class="coin-ticker">POL Network</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- Empty prompt before coin is selected -->
+      <div class="buy-empty-state" id="buyEmptyState">
+        <p>Click <strong>Solana</strong>, <strong>Ethereum</strong>, or <strong>Polygon (POL)</strong> above to view the wallet address, QR code, and start your 5-minute transaction timer.</p>
+      </div>
+
+      <!-- Active payment view (shown when a coin is selected) -->
+      <div class="buy-payment-panel" id="buyPaymentPanel" hidden>
+        <div class="buy-timer-bar">
+          <div class="buy-timer-meta">
+            <span class="buy-timer-label" id="activeCoinLabel">Solana (SOL) Deposit Window</span>
+            <span class="buy-timer-clock" id="txTimerDisplay" aria-live="polite">5:00</span>
+          </div>
+          <div class="buy-timer-track" aria-hidden="true">
+            <div class="buy-timer-fill" id="txTimerProgress"></div>
+          </div>
+        </div>
+
+        <div class="buy-payment-grid">
+          <div class="qr-placeholder" id="qrPlaceholder" aria-label="Wallet QR Code">
+            <img id="qrImage" src="img/qr-solana.png" width="180" height="180" alt="QR Code for selected wallet address">
+            <span class="qr-caption" id="qrCaption">Scan QR · Solana</span>
+          </div>
+
+          <div class="wallet-details">
+            <label class="wallet-label" for="walletAddressOutput" id="walletNetworkLabel">Wallet Address</label>
+            <output class="wallet-address-box" id="walletAddressOutput">5TMc6jQxQkmgbFonKb3xxWi6811aiuhDHxymSz1V5Smf</output>
+            <p class="wallet-hint">Send only on the selected network. After sending, open a ticket in Discord with your transaction hash to receive your key.</p>
+
+            <div class="wallet-actions">
+              <button type="button" class="btn btn-gold wallet-copy-btn" id="copyAddressBtn">
+                <svg class="ic-copy" viewBox="0 0 16 16" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 5.5V3.5a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                <span id="copyBtnText">Copy Address</span>
+              </button>
+            </div>
+
+            <!-- Expired State: shown when timer reaches 0:00 -->
+            <div class="tx-expired-box" id="txExpiredBox" hidden>
+              <p class="tx-expired-msg">Transaction timer expired (0:00). Need help or ready to retry?</p>
+              <div class="tx-expired-actions">
+                <a class="btn btn-gold btn-sm tx-contact-link" id="contactDevLink" href="https://discord.gg/tQaGGAgnWp" target="_blank" rel="noopener">
+                  Contact Dev <svg class="ic"><use href="#arrow"/></svg>
+                </a>
+                <button type="button" class="btn btn-line btn-sm tx-retry-btn" id="tryAgainBtn">
+                  Try Again
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
